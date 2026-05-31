@@ -1,0 +1,44 @@
+name: API Automation Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+
+    env:
+      BASE_URL: https://jsonplaceholder.typicode.com
+      REQUEST_TIMEOUT: 10
+      LOG_LEVEL: INFO
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run linting
+        run: ruff check .
+
+      - name: Run type checks
+        run: mypy
+
+      - name: Run Behave API tests
+        run: behave --junit --junit-directory reports/junit -f json.pretty -o reports/behave-report.json -f pretty
+
+      - name: Upload test reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-test-reports
+          path: reports/
