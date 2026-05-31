@@ -82,7 +82,8 @@ Reports are written to the `reports/` directory.
 
 ## How CI/CD Works
 
-GitHub Actions runs on every push, pull request, and manual workflow dispatch.
+GitHub Actions runs on every push, pull request, manual workflow dispatch, and a daily
+scheduled run at 9:00 AM Australia/Sydney during standard time.
 
 The workflow:
 

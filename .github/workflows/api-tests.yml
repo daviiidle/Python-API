@@ -3,6 +3,9 @@ name: API Automation Tests
 on:
   push:
   pull_request:
+  schedule:
+    # Runs daily at 9:00 AM Australia/Sydney during standard time.
+    - cron: "0 23 * * *"
   workflow_dispatch:
 
 jobs:
